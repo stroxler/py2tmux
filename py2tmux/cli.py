@@ -3,7 +3,9 @@ import sys
 import click
 
 import py2tmux.clickargs as clickargs
-from .tmux import list_sessions, send_content, send_line, send_endl
+from .tmux import (
+    list_sessions, send_content, send_full_line, send_tab_line, send_endl
+)
 
 
 @click.group()
@@ -29,9 +31,21 @@ def _send_line(session, line):
 
     A newline will be added at the end.
     """
-    send_line(session, line)
-    send_endl(session)
-    print "line sent"
+    send_full_line(session, line)
+
+@main.command('send-tab')
+@clickargs.session()
+@clickargs.line()
+def _send_tab(session, line):
+    """
+    Send a single line of text from a file or stdin to a tmux session,
+    with a tab added at the end.
+
+    This is useful if you are talking to tmux from a text editor and you
+    want to get tab completion
+
+    """
+    send_tab_line(session, line)
 
 
 @main.command('send-content')

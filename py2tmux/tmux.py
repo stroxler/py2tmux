@@ -17,9 +17,23 @@ def send_content(session, f):
     send_endl(session)
 
 
+def send_full_line(session, line):
+    send_line(session, line)
+    send_endl(session)
+
+
+def send_tab_line(session, line):
+    send_line(session, line)
+    send_tab(session)
+
+
 def send_line(session, line):
     sh.tmux('send-keys', '-t', session, '-l', line)
 
 
 def send_endl(session):
     sh.tmux('send-keys', '-t', session, 'Enter')
+
+
+def send_tab(session):
+    sh.tmux('send-keys', '-t', session, 'Tab')
